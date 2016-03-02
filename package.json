@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --compilers 'js:babel-register'",
+    "test": "NODE_ENV='test' PORT=7357 mocha --recursive --compilers 'js:babel-register'",
     "start": "node index.js",
     "serve": "nodemon index.js",
     "test:watch": "npm run test -- --watch"
@@ -27,6 +27,7 @@
     "babel-register": "^6.6.0",
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
-    "nodemon": "^1.9.1"
+    "nodemon": "^1.9.1",
+    "supertest": "^1.2.0"
   }
 }

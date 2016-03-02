@@ -1,6 +1,6 @@
 'use strict';
 
-const { expect }= require('chai');
+const { expect } = require('chai');
 const ava = require('../../lib/ava');
 
 describe('ava', () => {
@@ -12,7 +12,7 @@ describe('ava', () => {
       expect(newPlayer['name']).to.equal(name);
     });
 
-    it.only('creates a player with an "_id"', () => {
+    it('creates a player with an "_id"', () => {
       const name = 'ANDERSON';
       const newPlayer = ava.player({name});
 
@@ -29,7 +29,7 @@ describe('ava', () => {
 
     it('creates a player with a default energy level of 10', () => {
       const name = 'ANDREW';
-      const newPlayer = ava.player({name, energyLevel});
+      const newPlayer = ava.player({name});
 
       expect(newPlayer['energyLevel']).to.equal(10);
     });
