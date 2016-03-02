@@ -2,6 +2,8 @@
 
 const { expect } = require('chai')
 const request = require('supertest')
+const fs = require('fs')
+const { USERS_FILE } = require('../../../config')
 
 const app = require('../../../app')
 
@@ -29,26 +31,42 @@ describe.only('routes', () => {
     })
 
     it('returns response with "name" property', (done) => {
-      request(app)
-        .get('/user/1')
-        .end((err, res) => {
-          expect(res.body).to.have.property('name')
-        })
+      const userID = 1;
+      const database = JSON.stringify([{"id": userID, "name": "Samantha"}])
+      fs.writeFile(USERS_FILE, database, (err) => {
+        request(app)
+          .get(`/user/${userID}`)
+          .end((err, res) => {
+            expect(res.body).to.have.property('name')
+            done()
+          })
+      });
     })
+
     it('returns response with "age" property', (done) => {
-      request(app)
-        .get('/user/1')
-        .end((err, res) => {
-          expect(res.body).to.have.property('age')
-        })
+      const userID = 1;
+      const database = JSON.stringify([{"id": userID, "age": 666}])
+      fs.writeFile(USERS_FILE, database, (err) => {
+        request(app)
+          .get(`/user/${userID}`)
+          .end((err, res) => {
+            expect(res.body).to.have.property('age')
+            done()
+          })
+      });
     })
 
     it('returns message "User not found" if no user is found', (done) => {
-      request(app)
-        .get('/user/1')
-        .end((err, res) => {
-          expect(res.body).to.eql({message: 'User not found'});
-        })
+      const database = JSON.stringify([])
+      fs.writeFile(USERS_FILE, database, (err) => {
+        if (err) return done(err);
+        request(app)
+          .get('/user/1')
+          .end((err, res) => {
+            expect(res.body).to.eql({message: 'User not found'});
+            done()
+          })
+      });
     })
 
   })
