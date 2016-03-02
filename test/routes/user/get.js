@@ -14,7 +14,7 @@ describe.only('routes', () => {
         .end(done)
     })
 
-    it('returns json', (done) => {
+    it.only('returns json', (done) => {
       request(app)
         .get('/user/1')
         .expect('Content-Type', /json/)
@@ -40,6 +40,14 @@ describe.only('routes', () => {
         .get('/user/1')
         .end((err, res) => {
           expect(res.body).to.have.property('age')
+        })
+    })
+
+    it('returns message "User not found" if no user is found', (done) => {
+      request(app)
+        .get('/user/1')
+        .end((err, res) => {
+          expect(res.body).to.eql({message: 'User not found'});
         })
     })
 
